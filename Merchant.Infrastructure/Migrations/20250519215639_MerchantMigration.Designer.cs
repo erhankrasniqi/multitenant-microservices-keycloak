@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Merchant.Infrastructure.Migrations
 {
     [DbContext(typeof(TapyPayMerchantDbContext))]
-    [Migration("20250518131051_postgres")]
-    partial class postgres
+    [Migration("20250519215639_MerchantMigration")]
+    partial class MerchantMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,9 @@ namespace Merchant.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_Address_Id");
+
                     b.ToTable("Address");
                 });
 
@@ -112,9 +115,16 @@ namespace Merchant.Infrastructure.Migrations
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MerchantStatusId");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_Merchant_Id_TenantId");
 
                     b.ToTable("Merchants");
                 });
@@ -153,6 +163,9 @@ namespace Merchant.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MerchantId");
+
+                    b.HasIndex("Id", "MerchantId", "BankName")
+                        .HasDatabaseName("IX_MerchantBankAccount_Id_MerchantId_BankName");
 
                     b.ToTable("MerchantBankAccounts");
                 });
@@ -193,6 +206,9 @@ namespace Merchant.Infrastructure.Migrations
 
                     b.HasIndex("MerchantId");
 
+                    b.HasIndex("Id", "MerchantId")
+                        .HasDatabaseName("IX_MerchantDetails_Id_MerchantId");
+
                     b.ToTable("MerchantDetails");
                 });
 
@@ -218,6 +234,9 @@ namespace Merchant.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_MerchantStatus_Id");
 
                     b.ToTable("MerchantStatus");
                 });
@@ -254,6 +273,9 @@ namespace Merchant.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MerchantId");
+
+                    b.HasIndex("Id", "MerchantId")
+                        .HasDatabaseName("IX_MerchantTerminal_Id_MerchantId");
 
                     b.ToTable("MerchantTerminal");
                 });

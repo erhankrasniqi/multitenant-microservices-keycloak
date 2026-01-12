@@ -1,4 +1,5 @@
-﻿using MediatR; 
+﻿using MediatR;
+using SharedKernel;
 using UserManagement.Application.Responses; 
 using UserManagement.Infrastructure.Contracts;
 
@@ -8,13 +9,16 @@ namespace UserManagement.Application.Features.Users.Commands
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly INotifier _notifier;
 
         public CreateUserCommandHandler(
             IUserRepository userRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            INotifier notifier)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _notifier = notifier;
         }
 
         public async Task<GeneralResponse<int>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,7 @@ namespace UserManagement.Application.Features.Users.Commands
 
             var user = Domain.Aggregates.UsersAggregates.Users.Create(
                 null,
+                request.TenantId,
                 request.FirstName,
                 request.LastName,
                 request.Address.PostalCode,
@@ -34,6 +39,10 @@ namespace UserManagement.Application.Features.Users.Commands
 
             await _userRepository.Add(user, cancellationToken);
             await _unitOfWork.Save(cancellationToken);
+
+            string channel = "new-user-creation";
+
+            await user.NotifyEvent(_notifier, channel).ConfigureAwait(false);
 
             return new GeneralResponse<int>
             {

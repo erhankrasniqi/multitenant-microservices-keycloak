@@ -11,11 +11,12 @@ namespace UserManagement.Domain.Aggregates.UsersAggregates
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         public ICollection<UserRole> UserRoles { get; set; }
 
-        public static Users Create(Guid? keycloakId, string firstName, string lastName, string postalCode, string street, string city, string region, string country)
+        public static Users Create(Guid? keycloakId,string tenantid, string firstName, string lastName, string postalCode, string street, string city, string region, string country)
         {
             var user = new Users
-            {
+            { 
                 KeycloakId = keycloakId ?? Guid.NewGuid(),
+                TenantId = tenantid,
                 FirstName = firstName,
                 LastName = lastName,
             };

@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel;
 using System.Reflection;
+using TapyPay.Infrastructure;
+using TapyPay.Infrastructure.MessageBroker.Configuration;
 using UserManagement.Infrastructure.Contracts;
 using UserManagement.Infrastructure.Database;
+using UserManagement.Infrastructure.NotificationManager;
 using UserManagement.Infrastructure.Repositories;
 
 namespace UserManagement.Infrastructure
@@ -23,6 +27,16 @@ namespace UserManagement.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
 
             AutoRegisterRepositories(services);
+
+            return services;
+        }
+
+        public static IServiceCollection RegisterMessageBrokerAndNotifications(
+            this IServiceCollection services,
+            RabbitMqSettings settings)
+        {
+            services.AddRabbitMq(settings);
+            services.AddScoped<INotifier, NotificationSender>();
 
             return services;
         }

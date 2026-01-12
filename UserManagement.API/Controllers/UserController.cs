@@ -9,8 +9,7 @@ using UserManagement.Application.Responses;
 namespace UserManagement.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
+    [ApiController] 
     public class UserController : DefaultController
     {
         public UserController(IMediator mediator)

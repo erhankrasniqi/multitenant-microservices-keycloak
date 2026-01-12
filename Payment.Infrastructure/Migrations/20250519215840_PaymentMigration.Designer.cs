@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Payout.Infrastructure.Database;
+using Payment.Infrastructure.Database;
 
 #nullable disable
 
-namespace Payout.Infrastructure.Migrations
+namespace Payment.Infrastructure.Migrations
 {
-    [DbContext(typeof(PayoutDbContext))]
-    [Migration("20250518154352_postgres")]
-    partial class postgres
+    [DbContext(typeof(PaymentDbContext))]
+    [Migration("20250519215840_PaymentMigration")]
+    partial class PaymentMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,175 +25,7 @@ namespace Payout.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.Commission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("EffectiveFrom")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("EffectiveTo")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("FixedAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PartnerId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Percentage")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Commission");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PaymentLimit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("DailyLimitAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("EffectiveFrom")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("EffectiveTo")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("MaxTransactionAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("MaxTransactionsPerDay")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PayoutPaymentMethodId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PayoutPaymentMethodId");
-
-                    b.ToTable("PaymentLimit");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.Payout", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PartnerId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PayoutPaymentMethodId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ReferenceNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
-
-                    b.HasIndex("PayoutPaymentMethodId");
-
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("Payout");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutAuditLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Details")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PayoutId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("PerformedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PerformedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PayoutAuditLog");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutCurrency", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,10 +56,122 @@ namespace Payout.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayoutCurrency");
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_Currency_Id_Name");
+
+                    b.ToTable("Currency");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutHistory", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentLimit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("DailyLimitAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("EffectiveFrom")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EffectiveTo")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("MaxTransactionAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("MaxTransactionsPerDay")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_PaymentLimit_Id");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.ToTable("PaymentLimit");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("PaymentMethods");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_PaymentStatus_Id_Name");
+
+                    b.ToTable("PaymentStatus");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentStatusHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -244,7 +188,13 @@ namespace Payout.Infrastructure.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("PayoutId")
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PaymentStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<int>("StatusId")
@@ -252,14 +202,17 @@ namespace Payout.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PayoutId");
+                    b.HasIndex("PaymentId");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("PaymentStatusId");
 
-                    b.ToTable("PayoutHistory");
+                    b.HasIndex("Id", "PaymentId", "StatusId")
+                        .HasDatabaseName("IX_PaymentLimit_Id_PaymentId_StatusId");
+
+                    b.ToTable("PaymentStatusHistory");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutPaymentMethod", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Payments", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -267,10 +220,69 @@ namespace Payout.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Description")
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MerchantId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PaymentMethodId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("Id", "MerchantId", "TenantId")
+                        .HasDatabaseName("IX_Payments_Id_MerchantId_TenantId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Provider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeviceId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
@@ -286,136 +298,139 @@ namespace Payout.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("PayoutPaymentMethod");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutRetryLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AttemptNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("AttemptedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("FailureReason")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PayoutId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PayoutRetryLog");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("WebsiteUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name", "DeviceId")
+                        .HasDatabaseName("IX_Provider_Id_Name_DeviceId");
+
+                    b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.TransactionLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.ToTable("PayoutStatus");
+                    b.HasIndex("PaymentId", "TenantId")
+                        .HasDatabaseName("IX_TransactionLog_PaymentIde_TenantId");
+
+                    b.ToTable("TransactionLog");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PaymentLimit", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentLimit", b =>
                 {
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.PayoutPaymentMethod", "PayoutPaymentMethod")
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.PaymentMethod", "PaymentMethod")
                         .WithMany()
-                        .HasForeignKey("PayoutPaymentMethodId")
+                        .HasForeignKey("PaymentMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PayoutPaymentMethod");
+                    b.Navigation("PaymentMethod");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.Payout", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentMethod", b =>
                 {
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.PayoutCurrency", "Currency")
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.Provider", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentStatusHistory", b =>
+                {
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.Payments", "Payment")
+                        .WithMany("PaymentStatusHistories")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.PaymentStatus", "PaymentStatus")
+                        .WithMany("PaymentStatusHistories")
+                        .HasForeignKey("PaymentStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("PaymentStatus");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Payments", b =>
+                {
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.Currency", "Currency")
                         .WithMany("Payments")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.PayoutPaymentMethod", "PayoutPaymentMethod")
-                        .WithMany()
-                        .HasForeignKey("PayoutPaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.PayoutStatus", "Status")
-                        .WithMany("Payouts")
-                        .HasForeignKey("StatusId")
+                    b.HasOne("Payment.Domain.Aggregates.PaymentAggregates.PaymentMethod", "PaymentMethod")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Currency");
 
-                    b.Navigation("PayoutPaymentMethod");
-
-                    b.Navigation("Status");
+                    b.Navigation("PaymentMethod");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutHistory", b =>
-                {
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.Payout", "Payout")
-                        .WithMany()
-                        .HasForeignKey("PayoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Payout.Domain.Aggregates.PayoutAggregates.PayoutStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Payout");
-
-                    b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutCurrency", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Currency", b =>
                 {
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("Payout.Domain.Aggregates.PayoutAggregates.PayoutStatus", b =>
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentMethod", b =>
                 {
-                    b.Navigation("Payouts");
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.PaymentStatus", b =>
+                {
+                    b.Navigation("PaymentStatusHistories");
+                });
+
+            modelBuilder.Entity("Payment.Domain.Aggregates.PaymentAggregates.Payments", b =>
+                {
+                    b.Navigation("PaymentStatusHistories");
                 });
 #pragma warning restore 612, 618
         }

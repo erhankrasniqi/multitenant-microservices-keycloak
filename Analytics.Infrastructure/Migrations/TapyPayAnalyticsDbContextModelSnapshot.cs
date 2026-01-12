@@ -53,7 +53,14 @@ namespace Analytics.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_Alert_Id_TenantId");
 
                     b.ToTable("Alerts");
                 });
@@ -82,9 +89,16 @@ namespace Analytics.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventTypeId");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_AnalyticsEventRecord_Id_TenantId");
 
                     b.ToTable("AnalyticsEventRecords");
                 });
@@ -115,6 +129,9 @@ namespace Analytics.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_EventType_Id_Name");
 
                     b.ToTable("EventTypes");
                 });
@@ -152,6 +169,9 @@ namespace Analytics.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_KPI_Id_Name");
+
                     b.ToTable("KPIs");
                 });
 
@@ -181,6 +201,10 @@ namespace Analytics.Infrastructure.Migrations
                     b.Property<int>("SuccessfulPaymentsCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("TotalPaymentsAmount")
                         .HasColumnType("numeric");
 
@@ -188,6 +212,9 @@ namespace Analytics.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_PaymentAnalytics_Id_Name_TenantId");
 
                     b.ToTable("PaymentAnalytics");
                 });
@@ -225,9 +252,16 @@ namespace Analytics.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PaymentAnalyticsId");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_PaymentMethodAnalytics_Id_Name_TenantId");
 
                     b.ToTable("PaymentMethodAnalytics");
                 });
@@ -258,6 +292,10 @@ namespace Analytics.Infrastructure.Migrations
                     b.Property<int>("SuccessfulPayoutsCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("TotalPayoutsAmount")
                         .HasColumnType("numeric");
 
@@ -265,6 +303,9 @@ namespace Analytics.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id", "TenantId")
+                        .HasDatabaseName("IX_PayoutAnalytics_Id_Name_TenantId");
 
                     b.ToTable("PayoutAnalytics");
                 });
@@ -294,6 +335,10 @@ namespace Analytics.Infrastructure.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

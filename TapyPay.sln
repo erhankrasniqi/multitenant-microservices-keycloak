@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Partner.API", "Partner.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.API", "Payment.API\Payment.API.csproj", "{C1B1EB23-C6B8-4F53-BB72-DEB9C0D475D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.BackgroundProcess", "UserManagement.BackgroundProcess\UserManagement.BackgroundProcess.csproj", "{F0D400B8-29AC-4B84-BDCA-20657B851429}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,10 @@ Global
 		{C1B1EB23-C6B8-4F53-BB72-DEB9C0D475D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1B1EB23-C6B8-4F53-BB72-DEB9C0D475D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1B1EB23-C6B8-4F53-BB72-DEB9C0D475D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0D400B8-29AC-4B84-BDCA-20657B851429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D400B8-29AC-4B84-BDCA-20657B851429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D400B8-29AC-4B84-BDCA-20657B851429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D400B8-29AC-4B84-BDCA-20657B851429}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -238,6 +244,7 @@ Global
 		{F9F0B38A-B3D3-4080-8287-7D976C4DC8EA} = {AD33CFB1-FAA1-49BC-9894-235DF174A7A8}
 		{FD51DA0C-700C-473B-B341-692B0BDBDCAA} = {867315F7-1128-41BC-9857-12E7BA006D29}
 		{C1B1EB23-C6B8-4F53-BB72-DEB9C0D475D2} = {A6B0A5BA-C281-475C-9FC6-0CDD89D066C5}
+		{F0D400B8-29AC-4B84-BDCA-20657B851429} = {832A7798-72D2-4182-ABE0-610339FFF1D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65DEBDD1-01DE-4A5D-AD6A-F05111BF0E75}

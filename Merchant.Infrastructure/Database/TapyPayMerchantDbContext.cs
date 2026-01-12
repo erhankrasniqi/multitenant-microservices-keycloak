@@ -26,6 +26,31 @@ namespace Merchant.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Address>()
+                .HasIndex(p => new { p.Id })
+                .HasDatabaseName("IX_Address_Id");
+
+            modelBuilder.Entity<Domain.Aggregate.MerchantAggregates.Merchant>()
+               .HasIndex(p => new { p.Id, p.TenantId })
+               .HasDatabaseName("IX_Merchant_Id_TenantId");
+
+            modelBuilder.Entity<MerchantBankAccount>()
+             .HasIndex(p => new { p.Id, p.MerchantId, p.BankName })
+             .HasDatabaseName("IX_MerchantBankAccount_Id_MerchantId_BankName");
+
+            modelBuilder.Entity<MerchantDetails>()
+               .HasIndex(p => new { p.Id, p.MerchantId })
+               .HasDatabaseName("IX_MerchantDetails_Id_MerchantId");
+
+            modelBuilder.Entity<MerchantStatus>()
+              .HasIndex(p => new { p.Id })
+              .HasDatabaseName("IX_MerchantStatus_Id");
+
+            modelBuilder.Entity<MerchantTerminal>()
+              .HasIndex(p => new { p.Id, p.MerchantId})
+              .HasDatabaseName("IX_MerchantTerminal_Id_MerchantId");
         }
+
     }
 }

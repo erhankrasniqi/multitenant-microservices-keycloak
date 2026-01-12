@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using TapyPay.Infrastructure.MessageBroker.Configuration;
 using UserManagement.Application;
 using UserManagement.Infrastructure;
 namespace UserManagement.API
@@ -27,8 +29,18 @@ namespace UserManagement.API
         {
             string dbConnectionString = configuration.GetConnectionString("DbConnection");
 
+            string rabbitMqSection = "RabbitMqConfiguration:";
+            string host = configuration.GetSection($"{rabbitMqSection}Host").Value;
+            int port = int.Parse(configuration.GetSection($"{rabbitMqSection}Port").Value);
+            string username = configuration.GetSection($"{rabbitMqSection}Username").Value;
+            string password = configuration.GetSection($"{rabbitMqSection}Password").Value;
+            string clientProvidedName = configuration.GetSection($"{rabbitMqSection}ClientProvidedName").Value;
+            string virtualHost = configuration.GetSection($"{rabbitMqSection}VirtualHost").Value;
+            RabbitMqSettings rabbitMqSettings = new(host, port, username, password, clientProvidedName, virtualHost);
+
             services.RegisterDbContext(dbConnectionString);
             services.RegisterRepositories();
+            services.RegisterMessageBrokerAndNotifications(rabbitMqSettings);
             services.AddCqrs();
 
             return services;

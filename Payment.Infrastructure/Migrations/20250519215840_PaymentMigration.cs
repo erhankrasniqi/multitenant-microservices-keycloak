@@ -4,56 +4,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Payout.Infrastructure.Migrations
+namespace Payment.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class postgres : Migration
+    public partial class PaymentMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Commission",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PartnerId = table.Column<int>(type: "integer", nullable: false),
-                    Percentage = table.Column<decimal>(type: "numeric", nullable: false),
-                    FixedAmount = table.Column<decimal>(type: "numeric", nullable: false),
-                    EffectiveFrom = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EffectiveTo = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Commission", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PayoutAuditLog",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PayoutId = table.Column<int>(type: "integer", nullable: false),
-                    Action = table.Column<string>(type: "text", nullable: false),
-                    PerformedBy = table.Column<string>(type: "text", nullable: false),
-                    PerformedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Details = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PayoutAuditLog", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PayoutCurrency",
+                name: "Currency",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -67,17 +27,35 @@ namespace Payout.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayoutCurrency", x => x.Id);
+                    table.PrimaryKey("PK_Currency", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PayoutPaymentMethod",
+                name: "PaymentStatus",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Provider",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DeviceId = table.Column<string>(type: "text", nullable: false),
+                    ContactEmail = table.Column<string>(type: "text", nullable: false),
+                    WebsiteUrl = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -85,42 +63,50 @@ namespace Payout.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayoutPaymentMethod", x => x.Id);
+                    table.PrimaryKey("PK_Provider", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PayoutRetryLog",
+                name: "TransactionLog",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PayoutId = table.Column<int>(type: "integer", nullable: false),
-                    AttemptNumber = table.Column<int>(type: "integer", nullable: false),
-                    AttemptedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FailureReason = table.Column<string>(type: "text", nullable: true),
+                    PaymentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false),
+                    Action = table.Column<string>(type: "text", nullable: false),
+                    Message = table.Column<string>(type: "text", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayoutRetryLog", x => x.Id);
+                    table.PrimaryKey("PK_TransactionLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PayoutStatus",
+                name: "PaymentMethods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    ProviderId = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayoutStatus", x => x.Id);
+                    table.PrimaryKey("PK_PaymentMethods", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentMethods_Provider_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Provider",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,7 +115,8 @@ namespace Payout.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PayoutPaymentMethodId = table.Column<int>(type: "integer", nullable: false),
+                    PaymentMethodId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false),
                     MaxTransactionAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     DailyLimitAmount = table.Column<decimal>(type: "numeric", nullable: false),
                     MaxTransactionsPerDay = table.Column<int>(type: "integer", nullable: false),
@@ -143,142 +130,171 @@ namespace Payout.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_PaymentLimit", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentLimit_PayoutPaymentMethod_PayoutPaymentMethodId",
-                        column: x => x.PayoutPaymentMethodId,
-                        principalTable: "PayoutPaymentMethod",
+                        name: "FK_PaymentLimit_PaymentMethods_PaymentMethodId",
+                        column: x => x.PaymentMethodId,
+                        principalTable: "PaymentMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payout",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PartnerId = table.Column<int>(type: "integer", nullable: false),
+                    MerchantId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<string>(type: "text", nullable: false),
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     CurrencyId = table.Column<int>(type: "integer", nullable: false),
-                    RequestedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    PaymentMethodId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ProcessedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    StatusId = table.Column<int>(type: "integer", nullable: false),
-                    PayoutPaymentMethodId = table.Column<int>(type: "integer", nullable: false),
-                    ReferenceNumber = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payout", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payout_PayoutCurrency_CurrencyId",
+                        name: "FK_Payments_Currency_CurrencyId",
                         column: x => x.CurrencyId,
-                        principalTable: "PayoutCurrency",
+                        principalTable: "Currency",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Payout_PayoutPaymentMethod_PayoutPaymentMethodId",
-                        column: x => x.PayoutPaymentMethodId,
-                        principalTable: "PayoutPaymentMethod",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Payout_PayoutStatus_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "PayoutStatus",
+                        name: "FK_Payments_PaymentMethods_PaymentMethodId",
+                        column: x => x.PaymentMethodId,
+                        principalTable: "PaymentMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PayoutHistory",
+                name: "PaymentStatusHistory",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PayoutId = table.Column<int>(type: "integer", nullable: false),
+                    PaymentId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
+                    PaymentStatusId = table.Column<int>(type: "integer", nullable: false),
                     ChangedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PayoutHistory", x => x.Id);
+                    table.PrimaryKey("PK_PaymentStatusHistory", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PayoutHistory_PayoutStatus_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "PayoutStatus",
+                        name: "FK_PaymentStatusHistory_PaymentStatus_PaymentStatusId",
+                        column: x => x.PaymentStatusId,
+                        principalTable: "PaymentStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PayoutHistory_Payout_PayoutId",
-                        column: x => x.PayoutId,
-                        principalTable: "Payout",
+                        name: "FK_PaymentStatusHistory_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentLimit_PayoutPaymentMethodId",
-                table: "PaymentLimit",
-                column: "PayoutPaymentMethodId");
+                name: "IX_Currency_Id_Name",
+                table: "Currency",
+                columns: new[] { "Id", "Name" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payout_CurrencyId",
-                table: "Payout",
+                name: "IX_PaymentLimit_Id",
+                table: "PaymentLimit",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentLimit_PaymentMethodId",
+                table: "PaymentLimit",
+                column: "PaymentMethodId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentMethods_ProviderId",
+                table: "PaymentMethods",
+                column: "ProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_CurrencyId",
+                table: "Payments",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payout_PayoutPaymentMethodId",
-                table: "Payout",
-                column: "PayoutPaymentMethodId");
+                name: "IX_Payments_Id_MerchantId_TenantId",
+                table: "Payments",
+                columns: new[] { "Id", "MerchantId", "TenantId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payout_StatusId",
-                table: "Payout",
-                column: "StatusId");
+                name: "IX_Payments_PaymentMethodId",
+                table: "Payments",
+                column: "PaymentMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PayoutHistory_PayoutId",
-                table: "PayoutHistory",
-                column: "PayoutId");
+                name: "IX_PaymentStatus_Id_Name",
+                table: "PaymentStatus",
+                columns: new[] { "Id", "Name" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PayoutHistory_StatusId",
-                table: "PayoutHistory",
-                column: "StatusId");
+                name: "IX_PaymentLimit_Id_PaymentId_StatusId",
+                table: "PaymentStatusHistory",
+                columns: new[] { "Id", "PaymentId", "StatusId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentStatusHistory_PaymentId",
+                table: "PaymentStatusHistory",
+                column: "PaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentStatusHistory_PaymentStatusId",
+                table: "PaymentStatusHistory",
+                column: "PaymentStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Provider_Id_Name_DeviceId",
+                table: "Provider",
+                columns: new[] { "Id", "Name", "DeviceId" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TransactionLog_PaymentIde_TenantId",
+                table: "TransactionLog",
+                columns: new[] { "PaymentId", "TenantId" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Commission");
-
-            migrationBuilder.DropTable(
                 name: "PaymentLimit");
 
             migrationBuilder.DropTable(
-                name: "PayoutAuditLog");
+                name: "PaymentStatusHistory");
 
             migrationBuilder.DropTable(
-                name: "PayoutHistory");
+                name: "TransactionLog");
 
             migrationBuilder.DropTable(
-                name: "PayoutRetryLog");
+                name: "PaymentStatus");
 
             migrationBuilder.DropTable(
-                name: "Payout");
+                name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "PayoutCurrency");
+                name: "Currency");
 
             migrationBuilder.DropTable(
-                name: "PayoutPaymentMethod");
+                name: "PaymentMethods");
 
             migrationBuilder.DropTable(
-                name: "PayoutStatus");
+                name: "Provider");
         }
     }
 }

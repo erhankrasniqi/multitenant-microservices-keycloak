@@ -12,8 +12,8 @@ using Partner.Infrastructure.Database;
 namespace Partner.Infrastructure.Migrations
 {
     [DbContext(typeof(PartnerDbContext))]
-    [Migration("20250518130542_postgres")]
-    partial class postgres
+    [Migration("20250519215743_PartnerMigration")]
+    partial class PartnerMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,9 @@ namespace Partner.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_ContactInfo_Id");
 
                     b.ToTable("ContactInfos");
                 });
@@ -90,11 +93,18 @@ namespace Partner.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.HasIndex("ContactInfoId");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_Partner_Id_TenantId");
 
                     b.ToTable("Partners");
                 });
@@ -134,6 +144,9 @@ namespace Partner.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_PartnerAddress_Id");
+
                     b.ToTable("PartnerAddress");
                 });
 
@@ -166,6 +179,9 @@ namespace Partner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PartnerId");
+
+                    b.HasIndex("Id", "PartnerId", "MerchantId")
+                        .HasDatabaseName("IX_PartnerMerchant_Id_PartnerId_MerchantId");
 
                     b.ToTable("PartnerMerchants");
                 });
@@ -201,6 +217,9 @@ namespace Partner.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_PartnerPaymentPreference_Id");
 
                     b.HasIndex("PartnerId");
 
@@ -251,6 +270,9 @@ namespace Partner.Infrastructure.Migrations
                     b.HasIndex("PartnerId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("Id", "PartnerId")
+                        .HasDatabaseName("IX_PartnerUser_Id_PartnerId");
 
                     b.ToTable("PartnerUsers");
                 });
@@ -315,11 +337,13 @@ namespace Partner.Infrastructure.Migrations
 
             modelBuilder.Entity("Partner.Domain.Aggregates.PartnerAggregates.PartnerPaymentPreference", b =>
                 {
-                    b.HasOne("Partner.Domain.Aggregates.PartnerAggregates.Partner", null)
+                    b.HasOne("Partner.Domain.Aggregates.PartnerAggregates.Partner", "Partner")
                         .WithMany("PaymentPreferences")
                         .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Partner");
                 });
 
             modelBuilder.Entity("Partner.Domain.Aggregates.PartnerAggregates.PartnerUser", b =>

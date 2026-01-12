@@ -64,6 +64,9 @@ namespace UserManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Country")
+                        .HasDatabaseName("IX_Address_Country");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Address");
@@ -124,9 +127,11 @@ namespace UserManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("IX_UserRoles_RoleId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_UserRoles_UserId");
 
                     b.ToTable("UserRoles");
                 });
@@ -159,7 +164,18 @@ namespace UserManagement.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("KeycloakId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Users_KeycloakId");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("IX_Users_TenantId");
 
                     b.ToTable("Users");
                 });

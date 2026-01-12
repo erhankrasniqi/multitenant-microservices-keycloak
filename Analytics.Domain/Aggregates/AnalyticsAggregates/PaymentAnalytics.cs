@@ -16,7 +16,6 @@ namespace Analytics.Domain.Aggregates.AnalyticsAggregates
         public decimal TotalPaymentsAmount { get; set; }
         public int SuccessfulPaymentsCount { get; set; }
         public int FailedPaymentsCount { get; set; }
-         )
         public ICollection<PaymentMethodAnalytics> PaymentMethodStats { get; set; } = new List<PaymentMethodAnalytics>();
     }
 }

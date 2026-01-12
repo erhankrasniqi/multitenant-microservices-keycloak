@@ -53,6 +53,9 @@ namespace Payment.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_Currency_Id_Name");
+
                     b.ToTable("Currency");
                 });
 
@@ -91,7 +94,14 @@ namespace Payment.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .HasDatabaseName("IX_PaymentLimit_Id");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -152,6 +162,9 @@ namespace Payment.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id", "Name")
+                        .HasDatabaseName("IX_PaymentStatus_Id_Name");
+
                     b.ToTable("PaymentStatus");
                 });
 
@@ -189,6 +202,9 @@ namespace Payment.Infrastructure.Migrations
                     b.HasIndex("PaymentId");
 
                     b.HasIndex("PaymentStatusId");
+
+                    b.HasIndex("Id", "PaymentId", "StatusId")
+                        .HasDatabaseName("IX_PaymentLimit_Id_PaymentId_StatusId");
 
                     b.ToTable("PaymentStatusHistory");
                 });
@@ -228,6 +244,10 @@ namespace Payment.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -236,6 +256,9 @@ namespace Payment.Infrastructure.Migrations
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("Id", "MerchantId", "TenantId")
+                        .HasDatabaseName("IX_Payments_Id_MerchantId_TenantId");
 
                     b.ToTable("Payments");
                 });
@@ -278,6 +301,9 @@ namespace Payment.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id", "Name", "DeviceId")
+                        .HasDatabaseName("IX_Provider_Id_Name_DeviceId");
+
                     b.ToTable("Provider");
                 });
 
@@ -309,10 +335,17 @@ namespace Payment.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PaymentId", "TenantId")
+                        .HasDatabaseName("IX_TransactionLog_PaymentIde_TenantId");
 
                     b.ToTable("TransactionLog");
                 });

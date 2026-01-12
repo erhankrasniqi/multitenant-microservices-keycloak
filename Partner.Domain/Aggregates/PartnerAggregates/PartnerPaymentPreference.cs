@@ -10,6 +10,7 @@ namespace Partner.Domain.Aggregates.PartnerAggregates
     public class PartnerPaymentPreference : AggregateRoot<int>
     {
         public int PartnerId { get; set; }
+        public Partner Partner { get; set; }
         public string CurrencyCode { get; set; }         // vjen nga PaymentService
         public Guid PaymentMethodId { get; set; }        // vjen nga PaymentService
         public bool IsPreferred { get; set; }
