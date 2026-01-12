@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Messaging\Infrastructure.Messaging.csproj" />
     <ProjectReference Include="..\Merchant.Application\Merchant.Application.csproj" />
     <ProjectReference Include="..\Merchant.Domain\Merchant.Domain.csproj" />
     <ProjectReference Include="..\Merchant.Infrastructure\Merchant.Infrastructure.csproj" />
