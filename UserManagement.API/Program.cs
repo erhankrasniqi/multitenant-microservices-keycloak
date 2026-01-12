@@ -4,6 +4,7 @@ using UserManagement.API;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Infrastructure.Messaging.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.InitializeServices(builder.Configuration);
+builder.Services.AddMessaging(builder.Configuration);
 
 
 builder.Services.AddSwaggerGen(options =>
