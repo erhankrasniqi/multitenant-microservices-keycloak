@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
 {
-    // Për regjistrimin e alarmeve (alerts) në rast anomalish ose ndonjë ngjarjeje
     public class Alert : AggregateRoot<int>
     {
         public string AlertType { get; set; } = default!;

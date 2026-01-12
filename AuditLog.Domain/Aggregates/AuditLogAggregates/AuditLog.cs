@@ -10,18 +10,18 @@ namespace AuditLog.Domain.Aggregates.AuditLogAggregates
 
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public string UserId { get; set; } = null!; // ID e përdoruesit që bëri veprimin
+        public string UserId { get; set; } = null!;  
 
-        public string ServiceName { get; set; } = null!; // Emri i mikroshërbimit
+        public string ServiceName { get; set; } = null!;  
 
-        public string Action { get; set; } = null!; // Përshkrimi i veprimit (p.sh., "Login", "CreatePayment")
+        public string Action { get; set; } = null!;  
 
-        public string EntityName { get; set; } = null!; // Entiteti i prekur (p.sh., "User", "Payment")
+        public string EntityName { get; set; } = null!;  
 
-        public string EntityId { get; set; } = null!; // ID e entitetit të prekur
+        public string EntityId { get; set; } = null!;  
 
-        public string? Metadata { get; set; } // Informacion shtesë në JSON, p.sh. IP, device info, ndryshimet etj.
+        public string? Metadata { get; set; }  
 
-        public string? CorrelationId { get; set; } // ID për ndjekje të kërkesës/transaction-it (opsionale)
+        public string? CorrelationId { get; set; }  
     }
 }

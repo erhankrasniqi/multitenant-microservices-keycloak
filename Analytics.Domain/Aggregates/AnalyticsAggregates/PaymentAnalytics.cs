@@ -6,12 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
-{
-    // Statistika për pagesat
+{ 
     public class PaymentAnalytics : AggregateRoot<int>
     {
         public string TenantId { get; set; }
-        public DateTime Date { get; set; }  // Për shembull data e ditës apo muajit
+        public DateTime Date { get; set; }   
         public int TotalPaymentsCount { get; set; }
         public decimal TotalPaymentsAmount { get; set; }
         public int SuccessfulPaymentsCount { get; set; }

@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
-{
-    // Për ruajtjen e metrikave të biznesit (KPI)
+{ 
     public class KPI : AggregateRoot<int>
     {
         public string Name { get; set; } = default!;

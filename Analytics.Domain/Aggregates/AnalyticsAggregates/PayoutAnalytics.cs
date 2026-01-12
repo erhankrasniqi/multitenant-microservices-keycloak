@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
-{
-    // Statistika për pagesat e lëshuara (Payouts)
+{ 
     public class PayoutAnalytics : AggregateRoot<int>
     {
         public string TenantId { get; set; }

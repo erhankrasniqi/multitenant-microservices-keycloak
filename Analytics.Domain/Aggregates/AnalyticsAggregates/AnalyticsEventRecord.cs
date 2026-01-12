@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
 {
-    // Regjistrim i eventeve që vijnë nga shërbimet e tjera
     public class AnalyticsEventRecord : AggregateRoot<int>
     {
         public string TenantId { get; set; }

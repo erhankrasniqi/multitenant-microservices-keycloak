@@ -1,8 +1,7 @@
 ﻿using SharedKernel; 
 
 namespace Analytics.Domain.Aggregates.AnalyticsAggregates
-{
-    // Statistika për aktivitetin e përdoruesve
+{ 
     public class UserActivityAnalytics : AggregateRoot<int>
     {
         public string TenantId { get; set; }
