@@ -7,8 +7,8 @@ namespace Partner.Domain.Aggregates.PartnerAggregates
         public string Name { get; set; }
         public string PartnerCode { get; set; }
         public string BusinessType { get; set; }
-
-        public PartnerAddress Address { get; set; }
+        public string TenantId { get; set; }
+    public PartnerAddress Address { get; set; }
         public ContactInfo ContactInfo { get; set; }
 
         public ICollection<PartnerUser> Users { get; set; }

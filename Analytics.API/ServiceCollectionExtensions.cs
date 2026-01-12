@@ -74,32 +74,56 @@ namespace Analytics.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
+
+                // Këtu vendos Authority default, por mund ta mbash bosh dhe ta menaxhosh vetë validation
                 options.Authority = "http://localhost:8080/realms/master";
-                options.RequireHttpsMetadata = false; // Çaktivizo kërkesën për HTTPS gjatë zhvillimit
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = "http://localhost:8080/realms/master",
-                    ValidAudiences = new[] { "master-realm", "TapyPay-realm", "account", "user-management-api" },
+                    ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateIssuer = true
+                    // Nuk i vendos këtu statik, do i kontrollojmë më vonë
                 };
-
 
                 options.Events = new JwtBearerEvents
                 {
+                    OnTokenValidated = context =>
+                    {
+                        var issuer = context.SecurityToken.Issuer;
+                        var audience = context.Principal.Claims.FirstOrDefault(c => c.Type == "aud")?.Value;
+
+                        // Kontrollo në listën e tenantëve të aprovuara
+                        var validIssuers = new List<string>
+                        {
+                    "http://localhost:8080/realms/tenant1",
+                    "http://localhost:8080/realms/tenant2"
+                            // ...shto sa dëshiron
+                        };
+
+                        var validAudiences = new List<string>
+                        {
+                    "tenant1-client",
+                    "tenant2-client"
+                            // ...shto sa dëshiron
+                        };
+
+                        if (!validIssuers.Contains(issuer) || !validAudiences.Contains(audience))
+                        {
+                            context.Fail("Invalid issuer or audience.");
+                        }
+
+                        // Sukses
+                        return Task.CompletedTask;
+                    },
+
                     OnAuthenticationFailed = context =>
                     {
                         Console.WriteLine("AUTHENTICATION FAILED:");
                         Console.WriteLine(context.Exception.Message);
                         return Task.CompletedTask;
                     },
-                    OnTokenValidated = context =>
-                    {
-                        Console.WriteLine("TOKEN VALIDATED:");
-                        Console.WriteLine($"User: {context.Principal.Identity?.Name}");
-                        return Task.CompletedTask;
-                    },
+
                     OnChallenge = context =>
                     {
                         Console.WriteLine("AUTH CHALLENGE:");
@@ -112,5 +136,6 @@ namespace Analytics.API
 
             return services;
         }
+
     }
 }

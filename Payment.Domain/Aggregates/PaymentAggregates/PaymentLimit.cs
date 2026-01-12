@@ -11,7 +11,7 @@ namespace Payment.Domain.Aggregates.PaymentAggregates
     {
         public int PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; } = default!;
-
+        public string TenantId { get; set; }
         public decimal MaxTransactionAmount { get; set; }
         public decimal DailyLimitAmount { get; set; }
         public int MaxTransactionsPerDay { get; set; }

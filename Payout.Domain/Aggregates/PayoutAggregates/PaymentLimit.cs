@@ -11,7 +11,7 @@ namespace Payout.Domain.Aggregates.PayoutAggregates
     {
         public int PayoutPaymentMethodId { get; set; }
         public PayoutPaymentMethod PayoutPaymentMethod { get; set; } = default!;
-
+        public string TenantId { get; set; }
         public decimal MaxTransactionAmount { get; set; }
         public decimal DailyLimitAmount { get; set; }
         public int MaxTransactionsPerDay { get; set; }

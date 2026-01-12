@@ -10,6 +10,7 @@ namespace Analytics.Domain.Aggregates.AnalyticsAggregates
     // Statistika për pagesat e lëshuara (Payouts)
     public class PayoutAnalytics : AggregateRoot<int>
     {
+        public string TenantId { get; set; }
         public DateTime Date { get; set; }
         public int TotalPayoutsCount { get; set; }
         public decimal TotalPayoutsAmount { get; set; }

@@ -11,6 +11,7 @@ namespace Payout.Domain.Aggregates.PayoutAggregates
     {
         public int PartnerId { get; set; } // Partneri ose Merchant-i që merr pagesën
         public decimal Amount { get; set; } // Shuma që do paguhet
+        public string TenantId { get; set; }
         public int CurrencyId { get; set; }
         public PayoutCurrency Currency { get; set; }
 

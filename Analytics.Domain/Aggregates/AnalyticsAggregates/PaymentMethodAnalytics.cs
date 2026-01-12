@@ -9,6 +9,7 @@ namespace Analytics.Domain.Aggregates.AnalyticsAggregates
 {
     public class PaymentMethodAnalytics : AggregateRoot<int>
     {
+        public string TenantId { get; set; }
         public int PaymentAnalyticsId { get; set; }
         public PaymentAnalytics PaymentAnalytics { get; set; } = default!;
 

@@ -5,6 +5,7 @@ namespace UserManagement.Domain.Aggregates.UsersAggregates
     public class Users : AggregateRoot<int>
     {
         public Guid KeycloakId { get; set; }
+        public string TenantId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ICollection<Address> Addresses { get; set; } = new List<Address>();

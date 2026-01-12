@@ -13,7 +13,7 @@ namespace Merchant.Domain.Aggregate.MerchantAggregates
         public string Name { get; private set; } = default!;
         public string Email { get; private set; } = default!;
         public string PhoneNumber { get; private set; } = default!;
-
+        public string TenantId { get; private set; }
         public Guid AddressId { get; private set; }
         public Guid StatusId { get; private set; }
 

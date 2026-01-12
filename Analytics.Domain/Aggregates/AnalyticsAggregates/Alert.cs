@@ -11,6 +11,7 @@ namespace Analytics.Domain.Aggregates.AnalyticsAggregates
     public class Alert : AggregateRoot<int>
     {
         public string AlertType { get; set; } = default!;
+        public string TenantId { get; set; }
         public string Message { get; set; } = default!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsResolved { get; set; } = false;

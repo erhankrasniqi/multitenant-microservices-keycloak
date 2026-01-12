@@ -11,7 +11,7 @@ namespace Payment.Domain.Aggregates.PaymentAggregates
     {
         public int MerchantId { get; set; }
         public int UserId { get; set; }
-
+        public string TenantId { get; set; }
         public decimal Amount { get; set; }
 
         public int CurrencyId { get; set; }
