@@ -84,7 +84,7 @@ namespace UserManagement.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = "http://localhost:8080/realms/master";
+                options.Authority = "http://localhost:8080/realms/tapypay";
                 options.RequireHttpsMetadata = false; // Çaktivizo kërkesën për HTTPS gjatë zhvillimit
 
                 options.TokenValidationParameters = new TokenValidationParameters

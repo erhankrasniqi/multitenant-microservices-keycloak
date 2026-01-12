@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization; 
 using Microsoft.AspNetCore.Mvc;
-using Payment.Application.Features.Merchants.Queries;
-using Payment.Application.ReadModels.Merchants;
+using Payment.Application.Features.Payment.Queries;
+using Payment.Application.ReadModels.Payment;
 using Payment.Application.Responses;
 
 namespace Payment.API.Controllers
 {
+    [Authorize(Roles = "payment,admin")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

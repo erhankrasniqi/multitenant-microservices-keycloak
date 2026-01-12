@@ -1,8 +1,6 @@
 ﻿using MediatR; 
 using Payment.Application.Responses;
 using Payment.Infrastructure.Contracts;
-using Payment.Application.Responses;
-using Payment.Application.Features.Merchants.Commands;
 
 namespace Payment.Application.Features.Merchants.Commands
 {

@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization; 
-using Microsoft.AspNetCore.Mvc;
-using Partner.Application.Features.Merchants.Queries;
-using Partner.Application.ReadModels.Merchants;
+using Microsoft.AspNetCore.Mvc; 
+using Partner.Application.Features.Partners.Queries; 
+using Partner.Application.ReadModels.Partners;
 using Partner.Application.Responses;
 
 namespace Partner.API.Controllers
 {
+    [Authorize(Roles = "partner,admin")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

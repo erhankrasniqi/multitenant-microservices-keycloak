@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Authorization; 
 using Microsoft.AspNetCore.Mvc;
 using Payout.API.Controllers;
-using Payout.Application.Features.Merchants.Queries;
-using Payout.Application.ReadModels.Merchants;
+using Payout.Application.Features.Payout.Queries;
+using Payout.Application.ReadModels.Payout;
 using Payout.Application.Responses;
 
 namespace Payment.API.Controllers
 {
+    [Authorize(Roles = "payout,admin")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

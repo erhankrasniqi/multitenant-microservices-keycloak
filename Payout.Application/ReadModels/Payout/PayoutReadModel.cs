@@ -1,6 +1,6 @@
 ﻿
 
-namespace Payout.Application.ReadModels.Merchants
+namespace Payout.Application.ReadModels.Payout
 {
     public class PayoutReadModel
     {

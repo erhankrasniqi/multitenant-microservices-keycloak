@@ -1,6 +1,6 @@
 ﻿ 
 
-namespace Analytics.Application.ReadModels.Merchants
+namespace Analytics.Application.ReadModels
 {
     public class AnalyticsReadModel
     {

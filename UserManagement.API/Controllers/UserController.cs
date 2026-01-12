@@ -8,8 +8,10 @@ using UserManagement.Application.Responses;
 
 namespace UserManagement.API.Controllers
 {
+    [Authorize(Roles = "usermanagement,admin")]
     [Route("api/[controller]")]
-    [ApiController] 
+    [ApiController]
+    [Authorize]
     public class UserController : DefaultController
     {
         public UserController(IMediator mediator)

@@ -6,6 +6,7 @@ namespace UserManagement.Application.Features.Users.Commands
 {
     public class CreateUserCommand : IRequest<GeneralResponse<int>>
     {
+        public Guid KeycloakId { get; set; }
         public string TenantId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

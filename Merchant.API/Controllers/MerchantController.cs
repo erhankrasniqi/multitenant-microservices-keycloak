@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Merchant.API.Controllers
 {
+    [Authorize(Roles = "merchant,admin")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

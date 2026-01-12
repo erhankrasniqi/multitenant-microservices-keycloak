@@ -1,14 +1,15 @@
 ﻿using MediatR; 
-using Analytics.Application.Features.Merchants.Commands;
-using Analytics.Application.Features.Merchants.Queries;
-using Analytics.Application.ReadModels.Merchants;
+using Analytics.Application.Features.Merchants.Commands; 
 using Analytics.Application.Responses;
 using Microsoft.AspNetCore.Authorization; 
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
+using Analytics.Application.ReadModels;
+using Analytics.Application.Features.Analytics.Queries;
 
 namespace Analytics.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "analytics,admin")]
     [ApiController]
     [Authorize]
     public class AnalitycsController : DefaultController

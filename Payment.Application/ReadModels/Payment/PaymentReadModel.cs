@@ -1,6 +1,6 @@
 ﻿ 
 
-namespace Payment.Application.ReadModels.Merchants
+namespace Payment.Application.ReadModels.Payment
 {
     public class PaymentReadModel
     {

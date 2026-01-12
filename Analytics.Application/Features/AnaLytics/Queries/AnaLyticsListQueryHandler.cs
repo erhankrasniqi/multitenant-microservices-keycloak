@@ -1,10 +1,9 @@
-﻿
-
-using Analytics.Application.ReadModels.Merchants;
+﻿ 
 using Analytics.Infrastructure.Contracts;
 using MediatR; 
-using Analytics.Application.Responses;
-using Analytics.Application.Features.Merchants.Queries;
+using Analytics.Application.Responses; 
+using Analytics.Application.ReadModels;
+using Analytics.Application.Features.Analytics.Queries;
 
 namespace Analytics.Application.Features.Merchants.Queries
 {

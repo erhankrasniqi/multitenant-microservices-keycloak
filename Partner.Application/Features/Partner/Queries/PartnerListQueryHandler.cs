@@ -1,9 +1,7 @@
-﻿
-
-using MediatR;
-using Partner.Application.ReadModels.Merchants;
-using Partner.Application.Responses;
-using Partner.Domain.Aggregates.PartnerAggregates;
+﻿using MediatR;
+using Partner.Application.Features.Partners.Queries;
+using Partner.Application.ReadModels.Partners;
+using Partner.Application.Responses; 
 using Partner.Infrastructure.Contracts;
 
 namespace Partner.Application.Features.Merchants.Queries

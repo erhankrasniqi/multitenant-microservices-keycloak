@@ -1,9 +1,9 @@
 ﻿
 using Payout.Application.Responses;
-using MediatR;
-using Payout.Application.Features.Merchants.Queries;
+using MediatR; 
 using Payout.Infrastructure.Contracts;
-using Payout.Application.ReadModels.Merchants;
+using Payout.Application.ReadModels.Payout;
+using Payout.Application.Features.Payout.Queries;
 
 namespace Payment.Application.Features.Merchants.Queries
 {
