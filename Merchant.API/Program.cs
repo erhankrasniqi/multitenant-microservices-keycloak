@@ -1,7 +1,6 @@
 
 using Merchant.API.Middlewares;
-using Merchant.API;
-using Infrastructure.Messaging.Extensions;
+using Merchant.API; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddProblemDetails();
-builder.Services.InitializeServices(builder.Configuration);
-builder.Services.AddMessaging(builder.Configuration);
+builder.Services.InitializeServices(builder.Configuration); 
 builder.Services.AddAuthenticationKeyCloak();
 
 builder.Services.AddAuthorization();

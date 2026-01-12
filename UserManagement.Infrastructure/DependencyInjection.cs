@@ -11,7 +11,8 @@ namespace UserManagement.Infrastructure
     {
         public static IServiceCollection RegisterDbContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<TapyPayDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<TapyPayDbContext>(options => options.UseNpgsql(connectionString));
+
 
             return services;
         }

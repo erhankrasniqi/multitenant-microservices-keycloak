@@ -1,15 +1,26 @@
+
+using Payment.API.Middlewares;
+using Payment.API;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+string corsPolicy = "TapyPayPolicy";
 
+builder.Services.AddCorsInApplication(corsPolicy);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerWithJwtSupport();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+builder.Services.AddProblemDetails();
+builder.Services.InitializeServices(builder.Configuration);
+builder.Services.AddAuthenticationKeyCloak();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -18,8 +29,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(corsPolicy);
+
+app.UseExceptionHandler();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
